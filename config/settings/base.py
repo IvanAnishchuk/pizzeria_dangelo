@@ -267,6 +267,7 @@ REST_FRAMEWORK = {
         'utils.renderers.BrowsableAPIRenderer',  # XXX: disable on production
     ],
     'PAGE_SIZE': 10,
+    'EXCEPTION_HANDLER': 'utils.views.exception_handler',
 }
 # Your stuff...
 # ------------------------------------------------------------------------------

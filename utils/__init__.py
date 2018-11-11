@@ -93,7 +93,7 @@ def seq_uuid(
     if not counter:
         with threading.Lock():
             # Thread-safe increment
-            global COUNTER
+            global COUNTER  # pylint: disable=global-statement
             COUNTER += 1
             if COUNTER >= 2 ** 12:
                 COUNTER %= 2 ** 12

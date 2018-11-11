@@ -6,26 +6,23 @@ from django.views.generic import RedirectView
 from django.views import defaults as default_views
 from rest_framework import routers
 
-import customer_orders.views
-import pizza.views
+import pizzeria_dangelo.customer_orders.views
+import pizzeria_dangelo.pizza.views
+import pizzeria_dangelo.extras.views
 
 router = routers.DefaultRouter()
-router.register(r'sizes', pizza.views.PizzaSizeViewSet)
-router.register(r'crusts', pizza.views.PizzaCrustViewSet)
-router.register(r'toppings', pizza.views.PizzaToppingViewSet)
-router.register(r'pizzacomponents', pizza.views.PizzaComponentViewSet)
-router.register(r'pizzas', pizza.views.PizzaViewSet)
-router.register(r'orders', customer_orders.views.OrderViewSet)
+router.register(r'sizes', pizzeria_dangelo.pizza.views.PizzaSizeViewSet)
+router.register(r'crusts', pizzeria_dangelo.pizza.views.PizzaCrustViewSet)
+router.register(r'toppings', pizzeria_dangelo.pizza.views.PizzaToppingViewSet)
+router.register(r'pizzacomponents', pizzeria_dangelo.pizza.views.PizzaComponentViewSet)
+router.register(r'pizzas', pizzeria_dangelo.pizza.views.PizzaViewSet)
+router.register(r'extras', pizzeria_dangelo.extras.views.ExtraViewSet)
+router.register(r'extracategories', pizzeria_dangelo.extras.views.ExtraCategoryViewSet)
+router.register(r'orders', pizzeria_dangelo.customer_orders.views.OrderViewSet)
 
 
 urlpatterns = [
-    path("", RedirectView.as_view(url="/api/1/")),
-    # path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
-    # path(
-    #     "about/",
-    #     TemplateView.as_view(template_name="pages/about.html"),
-    #     name="about",
-    # ),
+    path("", RedirectView.as_view(url="/api/1/"), name="home"),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management

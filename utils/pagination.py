@@ -50,8 +50,8 @@ class IDPagination(rest_framework.pagination.CursorPagination):
 
         Set page size and return position, direction, and offset.
         (As Cursor object.)
-        TODO: research the best way to change Cursor type (add page size).
         """
+        # we might need to change Cursor class at some point
         encoded = request.query_params.get(self.cursor_query_param)
         if encoded is None:
             return None
@@ -162,10 +162,10 @@ class IDPagination(rest_framework.pagination.CursorPagination):
         """
         links = []
         for condition, getter, label in (
-            (self.has_previous, self.get_first_link, 'first'),
-            (self.has_previous, self.get_previous_link, 'prev'),
-            (self.has_next, self.get_next_link, 'next'),
-            (False, self.get_last_link, 'last'),  # TODO
+                (self.has_previous, self.get_first_link, 'first'),
+                (self.has_previous, self.get_previous_link, 'prev'),
+                (self.has_next, self.get_next_link, 'next'),
+                # last_link could be here
         ):
             if condition:
                 links.append('<{0}>; rel="{1}"'.format(getter(), label))
@@ -188,14 +188,13 @@ class IDPagination(rest_framework.pagination.CursorPagination):
         """
         if not self.has_previous:
             return None
-        else:
-            return self.encode_cursor(rest_framework.pagination.Cursor(
-                offset=0,
-                reverse=False,
-                position=uuid.UUID(bytes=self.position_first),
-            ))
+        return self.encode_cursor(rest_framework.pagination.Cursor(
+            offset=0,
+            reverse=False,
+            position=uuid.UUID(bytes=self.position_first),
+        ))
 
-    def get_last_link(self) -> typing.Optional[str]:
+    def get_last_link(self) -> typing.Optional[str]:  # pylint: disable=no-self-use
         """
         Get the last page.
 
@@ -209,20 +208,12 @@ class IDPagination(rest_framework.pagination.CursorPagination):
         and needs review and fixing :( still, DRF's cursor pagination can't do
         it either by default.
         """
-        return None  # TODO: figure out why it doesn't work
-        if not self.has_next:
-            return None
-        else:
-            return self.encode_cursor(rest_framework.pagination.Cursor(
-                offset=0,
-                reverse=True,
-                position=uuid.UUID(bytes=self.position_last),
-            ))
+        return None  # Doesn't work, needs investigation
 
     def get_html_context(self) -> typing.Dict[str, typing.Optional[str]]:
         return collections.OrderedDict([
             ('first_url', self.get_first_link()),
             ('previous_url', self.get_previous_link()),
             ('next_url', self.get_next_link()),
-            # ('last_url', self.get_last_link()),  # uncomment when fixed
+            # last_url could be here
         ])

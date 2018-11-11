@@ -21,7 +21,7 @@ Django = {extras = ["argon2"], version = "*"}
 Pillow = "*"
 requests = "*"
 drf-writable-nested = "*"
-"flake8-mypy" = "*"
+raven = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
@@ -52,10 +52,16 @@ Werkzeug = "*"
 Sphinx = "*"
 factory_boy = "*"
 django_coverage_plugin = "*"
+"flake8-broken-line" = "*"
 "flake8-commas" = "*"
 "flake8-bandit" = "*"
-"flake8-broken-line" = "*"
+"flake8-mypy" = "*"
 "flake8-tuple" = "*"
+pytest-coverage = "*"
+pylint = "*"
+pylint-django = "*"
+pylint-celery = "*"
+pycodestyle = "*"
 
 [requires]
 python_version = "3.7"

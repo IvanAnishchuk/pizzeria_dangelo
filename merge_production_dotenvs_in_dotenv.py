@@ -2,6 +2,7 @@ import os
 from typing import Sequence
 
 import pytest
+from _pytest.tmpdir import TempdirFactory
 
 ROOT_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 PRODUCTION_DOTENVS_DIR_PATH = os.path.join(ROOT_DIR_PATH, ".envs", ".production")
@@ -14,7 +15,9 @@ DOTENV_FILE_PATH = os.path.join(ROOT_DIR_PATH, ".env")
 
 
 def merge(
-    output_file_path: str, merged_file_paths: Sequence[str], append_linesep: bool = True
+        output_file_path: str,
+        merged_file_paths: Sequence[str],
+        append_linesep: bool = True,
 ) -> None:
     with open(output_file_path, "w") as output_file:
         for merged_file_path in merged_file_paths:
@@ -25,13 +28,17 @@ def merge(
                     output_file.write(os.linesep)
 
 
-def main():
+def main() -> None:
     merge(DOTENV_FILE_PATH, PRODUCTION_DOTENV_FILE_PATHS)
 
 
 @pytest.mark.parametrize("merged_file_count", range(3))
 @pytest.mark.parametrize("append_linesep", [True, False])
-def test_merge(tmpdir_factory, merged_file_count: int, append_linesep: bool):
+def test_merge(
+        tmpdir_factory: TempdirFactory,
+        merged_file_count: int,
+        append_linesep: bool,
+) -> None:
     tmp_dir_path = str(tmpdir_factory.getbasetemp())
 
     output_file_path = os.path.join(tmp_dir_path, ".env")

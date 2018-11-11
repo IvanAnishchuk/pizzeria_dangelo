@@ -12,12 +12,12 @@ if __name__ == "__main__":
         # issue is really that Django is missing to avoid masking other
         # exceptions on Python 2.
         try:
-            import django  # noqa
+            import django  # noqa pylint: disable=unused-import
         except ImportError:
             raise ImportError(
                 "Couldn't import Django. Are you sure it's installed and "
                 "available on your PYTHONPATH environment variable? Did you "
-                "forget to activate a virtual environment?"
+                "forget to activate a virtual environment?",
             )
 
         raise

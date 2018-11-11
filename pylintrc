@@ -1,0 +1,27 @@
+[MASTER]
+#load-plugins=pylint_common, pylint_django, pylint_celery 
+load-plugins=pylint_django, pylint_celery
+
+ignore=migrations,
+       settings,
+       templates,
+       tests
+
+[FORMAT]
+max-line-length=120
+
+[MESSAGES CONTROL]
+# duplicate-code is spammy and cannot be disabled locally, known pylint bug:
+# https://github.com/PyCQA/pylint/issues/214 but it's actually helpful for
+# refactoring, same with the other two here (missing-docstring,invalid-name)
+# they are fine in theory in any real django project they will generate tons
+# of spam (from urlpatterns to missing docstrings for every __str__ method)
+disable=missing-docstring,invalid-name,duplicate-code
+
+[DESIGN]
+max-parents=13
+# They say the default of 5 is reasonable but django classes aren't always made that way
+max-args=8
+
+[TYPECHECK]
+generated-members=REQUEST,acl_users,aq_parent,"[a-zA-Z]+_set{1,2}",save,delete
